@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 
 function App() {
-//
+///
   
   let post = '강남 우동 맛집';
   // {} 데이터 넣기 = 데이터 바인딩
