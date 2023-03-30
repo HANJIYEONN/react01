@@ -12,6 +12,8 @@ function App() {
   let [ 글제목,  set글제목 ] = useState(['남자 코트 추천', '강남 우동 맛집', '파이썬 독학']);
   let [ 좋아용, set좋아용 ] = useState(0);
 
+  let [modal, setModal] = useState(true); 
+
   // [] destructuring 문법
   // useState 는 html과 다르게 재렌더링이 됨
   const [logo, setLogo] = useState('blog')
@@ -44,15 +46,9 @@ function App() {
     set글제목(copyNameSort);
   }
 
-  /*
-    [컴포넌트 만드는 법]
-      1. function 만들기
-      2. return ()안에 html 담기
-      3. <함수명><함수명/> 쓰기
-  */
-
-  function 컴포넌트() {
-    
+  const openModal = () => {
+    if(modal) setModal(false);
+    if(!modal) setModal(true);
   }
 
   return (
@@ -67,20 +63,53 @@ function App() {
         <h4>{ 글제목[1] }</h4>
         <span onClick = {changeName} >╰(*°▽°*)╯</span>
         <p>2월 17일 발행</p>
-        <h4>{ 글제목[2] }</h4>
+        <h4 onClick={openModal}>{ 글제목[2] }</h4>
         <p>2월 17일 발행</p>
         <button onClick={ sortingName }>정렬</button>
       </div>
-      <Mocal></Mocal>
-      <div className="modal">
-        <h4>제목</h4>
-        <p>날짜</p>
-        <p>상세내용</p>
 
-      </div>
+      {
+        (modal) ? <Modal /> : null 
+      }
 
     </div>
   );
 }
+
+
+  /*
+    [컴포넌트 만드는 법]
+      1. function 만들기
+      2. return ()안에 html 담기
+      3. <함수명><함수명/> 쓰기
+  */
+
+  /* 
+    [어떤걸 컴포넌트로 만들면 좋은가]
+      1.반복적인 html 축약할 때
+      2. 큰 페이지들
+      3. 자주 변경되는 것들
+  */
+
+  /*
+    [동적으로 UI만드는  STEP]
+      1. HTML CSS로 미리 디자인 완성
+      2. UI 의 현재 상태를 STATE로 저장
+      3. STATE레 따라 UI가 어떻게 보일지 작성 (조건문 등으로)
+  */
+
+  function Modal() {
+
+    return (
+      <>
+        <div className="modal">
+          <h4>제목</h4>
+          <p>날짜</p>
+          <p>상세내용</p>
+      </div>
+      </>
+    )
+  }
+    
 
 export default App;
