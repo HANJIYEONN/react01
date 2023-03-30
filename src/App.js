@@ -18,6 +18,11 @@ function App() {
   // useState 는 html과 다르게 재렌더링이 됨
   const [logo, setLogo] = useState('blog')
 
+  [1,2,3].map(function(e){
+    console.log(e)
+  })
+
+
   function 함수(){
     console.log("!!")
     set좋아용(좋아용+1);
@@ -28,6 +33,9 @@ function App() {
     copyName[0] = '여자 코트 추천'
     set글제목(copyName);
   }
+
+
+
 
   /* 
   => [글제목]은 안되고 [...글제목]은 된 이유
@@ -56,7 +64,7 @@ function App() {
       <div className="black-nav">
         <h4 style={{color : 'red', fontSize : '16px'}}>{logo}</h4>
       </div>
-      <div className="list">
+      {/* <div className="list">
         <h4>{ 글제목[0] } <span  onClick = { 함수 }>👍</span> { 좋아용 } </h4>
         <p>2월 17일 발행</p>
 
@@ -66,7 +74,22 @@ function App() {
         <h4 onClick={openModal}>{ 글제목[2] }</h4>
         <p>2월 17일 발행</p>
         <button onClick={ sortingName }>정렬</button>
-      </div>
+      </div> */}
+
+      {
+        글제목.map(function(e, i){
+          return (
+            <div className="list" key={i}>
+              {/* <h4>{ 글제목[i] }</h4> */}
+              <h4 >{ e } <span  onClick = { 함수 }>👍</span> { 좋아용 } </h4>
+              <span onClick = {changeName} >╰(*°▽°*)╯</span>
+              <p>2월 17일 발행</p>
+            </div>
+          )
+        }  )
+      }
+
+      <button onClick={ sortingName }>정렬</button>
 
       {
         (modal) ? <Modal /> : null 
@@ -111,5 +134,11 @@ function App() {
     )
   }
     
+  /*
+    [map() 함수]
+    1. 왼쪽 array 자료만큼 내부코드 실행해줌
+    2. return 오른쪽에 있는 걸 array에 담아줌
+    3. 유용한 파라미터 2개 사용가능
+  */
 
 export default App;
