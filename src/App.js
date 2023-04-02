@@ -13,6 +13,7 @@ function App() {
   let [ 좋아용, set좋아용 ] = useState([0,0,0]);
 
   let [modal, setModal] = useState(true); 
+  let [modalTitle, setModalTitle] = useState(0)
 
   // [] destructuring 문법
   // useState 는 html과 다르게 재렌더링이 됨
@@ -25,6 +26,7 @@ function App() {
   }
 
   function changeName(){
+    console.log("!")
     let copyName = [...글제목];
     copyName[0] = '여자 코트 추천'
     set글제목(copyName);
@@ -50,9 +52,11 @@ function App() {
     set글제목(copyNameSort);
   }
 
-  const openModal = () => {
+  const openModal = (e) => {
     if(modal) setModal(false);
     if(!modal) setModal(true);
+
+    setModalTitle(e); 
   }
 
   return (
@@ -76,8 +80,7 @@ function App() {
         글제목.map(function(e, i){
           return (
             <div className="list" key={i}>
-              {/* <h4>{ 글제목[i] }</h4> */}
-              <h4 >{ e } <span  onClick = { (e) => {함수(i)} }>👍</span> { 좋아용[i] } </h4>
+              <h4 onClick={()=>{openModal(e)}}>{ e } <span  onClick = { (e) => {함수(i)} }>👍</span> { 좋아용[i] } </h4>
               <span onClick = {changeName} >╰(*°▽°*)╯</span>
               <p>2월 17일 발행</p>
             </div>
@@ -88,7 +91,7 @@ function App() {
       <button onClick={ sortingName }>정렬</button>
 
       {
-        (modal) ? <Modal /> : null 
+        (modal) ? <Modal color={'skyblue'} 글제목={ 글제목 } set글제목={set글제목} modalTitle={modalTitle}/> : null 
       }
 
     </div>
@@ -117,18 +120,27 @@ function App() {
       3. STATE레 따라 UI가 어떻게 보일지 작성 (조건문 등으로)
   */
 
-  function Modal() {
+  function Modal(props) {
+console.log("^^")
+console.log(props)
 
     return (
       <>
-        <div className="modal">
-          <h4>제목</h4>
+        <div className="modal" style={{background : props.color}}>
+          <h4>{props.modalTitle}</h4>
           <p>날짜</p>
           <p>상세내용</p>
+          <button onClick={()=>{props.set글제목(['여자코트변경', '강남우동맛집','파이썬 독학'])} }>글 수정</button>
       </div>
       </>
     )
   }
+
+  /*
+    [ 부모 ->  자식 state 전송하는 법]
+      1. <자식컴포넌트 작명 ={state이름}>
+      2. props 파라미터 등록후 props.작명 사용
+  */
     
   /*
     [map() 함수]
