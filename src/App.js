@@ -167,4 +167,25 @@ function 삭제(i){
     3. 유용한 파라미터 2개 사용가능
   */
 
+  //class 문법
+  class Modal2 extends React.Component {
+    constructor(props){
+      super(props);
+      this.state = {
+        name : 'kim',
+        age : 16
+      }
+    }
+    render(){
+      return (
+        <div>안녕 {this.state.name }
+          <button onClick={()=> {
+            this.setState({ age:20 })
+          }}>버튼</button> 
+        
+        </div>
+      )
+    }
+  } 
+
 export default App;
