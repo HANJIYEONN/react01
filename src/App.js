@@ -12,8 +12,9 @@ function App() {
   let [ 글제목,  set글제목 ] = useState(['남자 코트 추천', '강남 우동 맛집', '파이썬 독학']);
   let [ 좋아용, set좋아용 ] = useState([0,0,0]);
 
-  let [modal, setModal] = useState(true); 
-  let [modalTitle, setModalTitle] = useState(0)
+  let [modal, setModal] = useState(false); 
+  let [modalTitle, setModalTitle] = useState(0);
+  let [입력값, set입력값] = useState('');
 
   // [] destructuring 문법
   // useState 는 html과 다르게 재렌더링이 됨
@@ -26,14 +27,10 @@ function App() {
   }
 
   function changeName(){
-    console.log("!")
     let copyName = [...글제목];
     copyName[0] = '여자 코트 추천'
     set글제목(copyName);
   }
-
-
-
 
   /* 
   => [글제목]은 안되고 [...글제목]은 된 이유
@@ -59,6 +56,21 @@ function App() {
     setModalTitle(e); 
   }
 
+  function 게시글추가(){
+    if(!입력값) {
+      alert("입력값이 존제하지 않습니다.")
+       return false;
+    }
+    let copyName = [...글제목, 입력값];
+    set글제목(copyName);
+  }
+
+function 삭제(i){
+  let copyName = [...글제목];
+  copyName.splice(i,1)
+  set글제목(copyName)
+}
+
   return (
     <div className="App">
       <div className="black-nav">
@@ -80,13 +92,17 @@ function App() {
         글제목.map(function(e, i){
           return (
             <div className="list" key={i}>
-              <h4 onClick={()=>{openModal(e)}}>{ e } <span  onClick = { (e) => {함수(i)} }>👍</span> { 좋아용[i] } </h4>
+              <h4 onClick={()=>{openModal(e)}}>{ e } <span  onClick = { (e) => {e.stopPropagation(); 함수(i)} }>👍</span> { 좋아용[i] } </h4>
               <span onClick = {changeName} >╰(*°▽°*)╯</span>
+              <button onClick={()=>{삭제(i)}}>삭제</button>
               <p>2월 17일 발행</p>
             </div>
           )
         }  )
       }
+
+      <input type="text" onChange={(e)=>{set입력값(e.target.value)} }></input>
+      <button onClick={()=> {게시글추가()}}>추가</button>
 
       <button onClick={ sortingName }>정렬</button>
 
@@ -120,9 +136,11 @@ function App() {
       3. STATE레 따라 UI가 어떻게 보일지 작성 (조건문 등으로)
   */
 
-  function Modal(props) {
-console.log("^^")
-console.log(props)
+    //이벤트버블링
+    // 상위 html로 퍼지는 이벤트버블링을 막고 싶으면 e.stopPropagation() 
+
+  function Modal(props)
+   {
 
     return (
       <>
